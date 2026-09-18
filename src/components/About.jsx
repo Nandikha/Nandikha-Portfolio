@@ -1,42 +1,31 @@
-import { about, profile } from '../content'
+import { education } from '../content'
 import Section from './Section'
-import { CheckIcon } from './Icons'
 
 export default function About() {
   return (
     <Section
       id="about"
-      eyebrow="01 — About"
-      title="A student who ships"
-      lead="Short version: I like building, I like finishing, and I like understanding why things work."
+      module="MODULE_02 // SYSTEM_ARCHITECTURE & EDUCATION"
+      title="About"
+      accent="& Academic Foundation"
+      lead="Execution trace of an engineering track focused on software systems, algorithms and shipping working product."
     >
-      <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr]">
-        <div className="reveal space-y-5">
-          {about.paragraphs.map((p, i) => (
-            <p key={i} className="text-[0.98rem] leading-relaxed text-[#9aa0b4]">
-              {p}
-            </p>
-          ))}
-        </div>
+      <div className="grid gap-5 lg:grid-cols-2">
+        {education.map((e) => (
+          <article key={e.degree} className="reveal hud p-6">
+            <p className="module-tag">◈ {e.node}</p>
 
-        <div className="reveal card p-6">
-          <p className="eyebrow">What I bring</p>
-          <ul className="mt-5 space-y-4">
-            {about.highlights.map((h) => (
-              <li key={h} className="flex gap-3 text-[0.9rem] leading-relaxed text-[#cfd3e0]">
-                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent-2">
-                  <CheckIcon width={12} height={12} />
-                </span>
-                {h}
-              </li>
-            ))}
-          </ul>
+            <h3 className="display mt-3 text-xl text-white sm:text-2xl">{e.degree}</h3>
+            <p className="mt-1.5 text-[0.76rem] tracking-[0.1em] text-cyan/80">{e.org}</p>
 
-          <div className="mt-6 border-t border-line pt-5">
-            <p className="text-[0.8rem] text-[#6f7489]">Currently</p>
-            <p className="mt-1 text-[0.9rem] text-white">{profile.availability}</p>
-          </div>
-        </div>
+            <p className="mt-4 text-[0.82rem] leading-relaxed text-dim">{e.detail}</p>
+
+            <div className="mt-6 flex items-end justify-between border-t border-line pt-4">
+              <span className="label">{e.metricLabel}</span>
+              <span className="display text-2xl glow-amber">{e.metricValue}</span>
+            </div>
+          </article>
+        ))}
       </div>
     </Section>
   )

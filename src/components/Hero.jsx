@@ -1,93 +1,168 @@
-import { profile, stats } from '../content'
-import { iconFor } from '../socialIcons'
-import { ArrowUpRight, DownloadIcon, PinIcon } from './Icons'
+import { profile, telemetry } from '../content'
+import { GithubIcon, LinkedinIcon, MailIcon } from './Icons'
+import Markup from './Markup'
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      {/* ambient background */}
+    <section id="top" className="relative overflow-hidden pt-24 pb-16 sm:pt-32">
+      {/* ambient field */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="animate-drift absolute -top-40 left-1/2 size-[46rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(124,92,255,0.22),transparent_62%)] blur-2xl" />
-        <div className="absolute right-[-8rem] top-24 size-[30rem] rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.14),transparent_65%)] blur-2xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_75%_55%_at_50%_30%,#000,transparent)]" />
+        <div className="animate-float-slow absolute -top-32 left-1/4 size-[38rem] rounded-full bg-[radial-gradient(circle,rgba(34,230,212,0.12),transparent_62%)] blur-3xl" />
+        <div className="absolute -right-32 top-10 size-[32rem] rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.12),transparent_65%)] blur-3xl" />
       </div>
 
       <div className="shell">
-        <div className="reveal is-visible">
-          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/5 px-3 py-1 text-[0.72rem] text-[#9aa0b4]">
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent-2 opacity-70" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-accent-2" />
-            </span>
-            {profile.availability}
-          </span>
-
-          <h1 className="mt-6 text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            {profile.name}
-            <span className="block gradient-text">{profile.tagline}</span>
-          </h1>
-
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-[#9aa0b4]">
-            {profile.intro}
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="#work"
-              className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink transition-transform hover:-translate-y-0.5"
-            >
-              View my work
-              <ArrowUpRight className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-            <a
-              href={profile.resumeUrl}
-              className="inline-flex items-center gap-2 rounded-full border border-line bg-white/5 px-5 py-2.5 text-sm text-white transition-colors hover:border-accent/60 hover:bg-accent/10"
-            >
-              <DownloadIcon />
-              Résumé
-            </a>
-
-            <div className="ml-1 flex items-center gap-1.5">
-              {profile.socials.map((s) => {
-                const Icon = iconFor(s.label)
-                return (
-                  <a
-                    key={s.label}
-                    href={s.url}
-                    target={s.url.startsWith('http') ? '_blank' : undefined}
-                    rel="noreferrer"
-                    aria-label={s.label}
-                    title={s.label}
-                    className="grid size-10 place-items-center rounded-full border border-line text-[#9aa0b4] transition-colors hover:border-accent/60 hover:text-white"
-                  >
-                    <Icon width={17} height={17} />
-                  </a>
-                )
-              })}
-            </div>
-          </div>
-
-          <p className="mt-7 inline-flex items-center gap-1.5 text-[0.82rem] text-[#6f7489]">
-            <PinIcon width={14} height={14} />
-            {profile.location}
+        {/* status bar */}
+        <div className="reveal is-visible mb-8 flex items-center gap-3 border-y border-line py-2">
+          <span className="animate-blink text-cyan">◈</span>
+          <p className="overflow-hidden whitespace-nowrap text-[0.62rem] tracking-[0.2em] text-dim">
+            {profile.statusLine}
           </p>
         </div>
 
-        <dl className="reveal mt-16 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-line bg-line">
-          {stats.map((s) => (
-            <div key={s.label} className="bg-ink-soft px-4 py-6 text-center sm:px-6">
-              <dt className="sr-only">{s.label}</dt>
-              <dd>
-                <span className="block text-2xl font-semibold text-white sm:text-3xl">
-                  {s.value}
+        <div className="grid items-start gap-12 lg:grid-cols-[1.35fr_0.65fr]">
+          {/* ── left column ── */}
+          <div className="reveal is-visible">
+            <h1 className="display text-[3.2rem] leading-[0.92] text-white sm:text-7xl lg:text-8xl">
+              {profile.firstName}
+              {profile.lastName && (
+                <em className="not-italic glow-cyan"> {profile.lastName}</em>
+              )}
+            </h1>
+
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+              {profile.badges.map((b, i) => (
+                <span key={b} className="flex items-center gap-4">
+                  {i > 0 && <span className="text-line-hot">·</span>}
+                  <span className="text-[0.7rem] tracking-[0.12em] text-cyan/90">{b}</span>
                 </span>
-                <span className="mt-1 block text-[0.7rem] uppercase tracking-wider text-[#6f7489]">
-                  {s.label}
-                </span>
-              </dd>
+              ))}
             </div>
-          ))}
-        </dl>
+
+            <p className="mt-7 max-w-2xl text-[0.88rem] leading-[1.85] text-dim">
+              <Markup text={profile.intro} />
+            </p>
+
+            {/* telemetry grid */}
+            <dl className="mt-9 grid grid-cols-2 gap-px border border-line bg-line lg:grid-cols-4">
+              {telemetry.map((t) => (
+                <div key={t.label} className="bg-panel px-3.5 py-4">
+                  <dt className="label">{t.label}</dt>
+                  <dd>
+                    <span className="mt-1.5 block text-[0.98rem] font-bold text-white">
+                      {t.value}
+                    </span>
+                    <span className="mt-0.5 block text-[0.6rem] tracking-wider text-cyan/70">
+                      {t.sub}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#projects" className="btn btn-primary">
+                ★ View Projects
+              </a>
+              <a href="#workbench" className="btn">
+                ⚡ Logic Lab
+              </a>
+              <a href="#contact" className="btn">
+                ◈ Transmit Link
+              </a>
+            </div>
+
+            {/* marquee ticker */}
+            <div className="mt-8 overflow-hidden border-y border-line py-1.5">
+              <div className="animate-marquee flex w-max gap-10 whitespace-nowrap">
+                {[0, 1].map((k) => (
+                  <span key={k} className="text-[0.6rem] tracking-[0.3em] text-line-hot">
+                    {profile.telemetryTicker} ····· {profile.telemetryTicker} ·····
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── right column: identity panel ── */}
+          <aside className="reveal is-visible">
+            <div className="hud p-5">
+              <div className="flex items-center justify-between border-b border-line pb-3">
+                <span className="label">ID_CARD</span>
+                <span className="flex items-center gap-1.5 text-[0.6rem] tracking-[0.18em] text-cyan">
+                  <span className="animate-pulse-ring inline-block size-1.5 rounded-full bg-cyan" />
+                  {profile.availability}
+                </span>
+              </div>
+
+              {/* portrait placeholder — swap for a real photo */}
+              <div className="relative mt-4 aspect-square overflow-hidden border border-line bg-gradient-to-br from-panel-2 to-void">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-[linear-gradient(rgba(34,230,212,0.09)_1px,transparent_1px),linear-gradient(90deg,rgba(34,230,212,0.09)_1px,transparent_1px)] bg-[size:22px_22px]"
+                />
+                <div className="absolute inset-0 grid place-items-center">
+                  <span className="display text-7xl text-cyan/25">
+                    {profile.firstName[0]}
+                    {profile.lastName[0] || profile.firstName[1]}
+                  </span>
+                </div>
+                {/* scanning line */}
+                <div
+                  aria-hidden
+                  className="animate-sweep absolute inset-x-0 top-1/2 h-16 bg-gradient-to-b from-transparent via-cyan/12 to-transparent"
+                />
+                <span className="absolute bottom-2 left-2 text-[0.55rem] tracking-[0.2em] text-cyan/50">
+                  IMG_00 // REPLACE_IN_/public
+                </span>
+              </div>
+
+              <dl className="mt-4 space-y-2">
+                {profile.portraitStats.map((s) => (
+                  <div
+                    key={s.label}
+                    className="flex items-center justify-between border-b border-line/60 pb-2 last:border-0"
+                  >
+                    <dt className="label">{s.label}</dt>
+                    <dd className="text-[0.66rem] tracking-[0.12em] text-white">{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                <a
+                  href={`https://github.com/${profile.githubUsername}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="GitHub"
+                  className="grid h-9 place-items-center border border-line text-dim transition-colors hover:border-cyan/50 hover:text-cyan"
+                >
+                  <GithubIcon width={16} height={16} />
+                </a>
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LinkedIn"
+                  className="grid h-9 place-items-center border border-line text-dim transition-colors hover:border-cyan/50 hover:text-cyan"
+                >
+                  <LinkedinIcon width={16} height={16} />
+                </a>
+                <a
+                  href={`mailto:${profile.email}`}
+                  aria-label="Email"
+                  className="grid h-9 place-items-center border border-line text-dim transition-colors hover:border-cyan/50 hover:text-cyan"
+                >
+                  <MailIcon width={16} height={16} />
+                </a>
+              </div>
+
+              <a href={profile.resumeUrl} className="btn mt-2 w-full justify-center !text-[0.62rem]">
+                ▤ Download Résumé
+              </a>
+            </div>
+          </aside>
+        </div>
       </div>
     </section>
   )

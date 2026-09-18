@@ -8,6 +8,7 @@ import Nav from './components/Nav'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Timeline from './components/Timeline'
+import Workbench from './components/Workbench'
 import { profile } from './content'
 import { navLinks } from './navLinks'
 import { useActiveSection, useReveal } from './hooks/useReveal'
@@ -24,16 +25,18 @@ export default function App() {
   useActiveSection(SECTION_IDS, setActive)
 
   useEffect(() => {
-    document.title = `${profile.name} — ${profile.role}`
+    document.title = `${profile.firstName}${
+      profile.lastName ? ` ${profile.lastName}` : ''
+    } — ${profile.role}`
   }, [])
 
   return (
     <>
       <a
         href="#about"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:text-ink"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:border focus:border-cyan focus:bg-void focus:px-4 focus:py-2 focus:text-[0.7rem] focus:text-cyan"
       >
-        Skip to content
+        SKIP TO CONTENT
       </a>
 
       <Nav active={active} />
@@ -44,6 +47,7 @@ export default function App() {
         <Skills />
         <Projects />
         <GithubFeed onLoaded={onFeedLoaded} />
+        <Workbench />
         <Timeline />
         <Contact />
       </main>
