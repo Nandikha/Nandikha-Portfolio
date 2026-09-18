@@ -1,0 +1,131 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #07080c;
+  --color-ink-soft: #0c0e14;
+  --color-line: #1c1f2a;
+  --color-accent: #7c5cff;
+  --color-accent-2: #22d3ee;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: #e6e8ef;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 40%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-2);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 68rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8b90a3;
+  }
+
+  .card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+
+  .card:hover {
+    border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-line));
+    transform: translateY(-3px);
+  }
+
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    color: #a8adc0;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .gradient-text {
+    background: linear-gradient(100deg, #fff 10%, var(--color-accent) 55%, var(--color-accent-2) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Entrance animation, driven by IntersectionObserver in useReveal() */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* Slow ambient drift for the hero glow */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -28px, 0) scale(1.08);
+  }
+}
+
+.animate-drift {
+  animation: drift 16s ease-in-out infinite;
+}
